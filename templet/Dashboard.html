@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Model Dashboard</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        .image-container {
+            margin-bottom: 30px;
+        }
+
+        .card {
+            border: none;
+            transition: transform 0.2s;
+        }
+
+        .card:hover {
+            transform: scale(1.05);
+        }
+
+        .text-container {
+            font-size: 14px;
+        }
+
+        img {
+            max-width: 100%;
+            height: auto;
+        }
+
+        .feature-importance {
+            margin-top: 40px;
+        }
+
+        .feature-importance-container {
+            display: flex;
+            align-items: flex-start;
+            /* Align items at the start */
+            margin-bottom: 20px;
+        }
+
+        .feature-importance-image {
+            max-width: 300px;
+            margin-right: 20px;
+        }
+
+        .feature-importance-text {
+            flex: 1;
+            font-size: 14px;
+            border: 1px solid #ddd;
+            padding: 15px;
+            border-radius: 5px;
+            background-color: #f9f9f9;
+            /* Light background for contrast */
+        }
+
+        .importance-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        .importance-table th,
+        .importance-table td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+
+        .importance-table th {
+            background-color: #f2f2f2;
+            font-weight: bold;
+        }
+
+        .importance-table tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+
+        .importance-table tr:hover {
+            background-color: #ddd;
+        }
+
+        h2 {
+            margin-bottom: 15px;
+            /* Space between heading and content */
+        }
+
+        .no-description {
+            font-style: italic;
+            color: #888;
+            /* Grey color for 'no description' */
+            text-align: center;
+        }
+
+        a {
+            color: #ffffff;
+            text-decoration: none;
+            background-color: transparent;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- NAVBAR -->
+    <nav class="navbar bg-primary navbar-expand-lg sticky-top" data-bs-theme="dark">
+        <div class="container-fluid">
+
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarTogglerDemo02"
+                aria-controls="navbarTogglerDemo02" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarTogglerDemo02">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="/home"><b>Churn Predictor</b></a>
+                      </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="/">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/predict">Predict</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/dashboard">Dashboard</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/about">About Us</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container mt-5">
+        <h1 class="text-center">Model Evaluation Dashboard</h1>
+        <button id="generate-btn" class="btn btn-primary mb-4">Generate and Save Images</button>
+        <div id="images-section" class="row"></div>
+    </div>
+
+    <script>
+        document.getElementById('generate-btn').addEventListener('click', async () => {
+            const response = await fetch('/generate_images', {
+                method: 'POST',
+            });
+            const data = await response.json();
+            alert(data.message || 'Images generated successfully!');
+            loadImages();
+        });
+
+        async function loadImages() {
+            const response = await fetch('/get_all_images_and_importance');
+            const data = await response.json();
+            console.log(data); // Log the data to debug
+            const imagesSection = document.getElementById('images-section');
+            imagesSection.innerHTML = '';
+
+            // Display images in a responsive grid
+            data.images_data.forEach(img => {
+                const col = document.createElement('div');
+                col.classList.add('col-md-4', 'image-container');
+                col.innerHTML = `
+                    <div class="card">
+                        <img src="/get_image/${img.image_name}" class="card-img-top" alt="${img.image_name}">
+                        <div class="card-body">
+                            <p class="text-container">${img.text_description || '<span class="no-description">No description available.</span>'}</p>
+                        </div>
+                    </div>
+                `;
+                imagesSection.appendChild(col);
+            });
+
+            // Display feature importance images and texts side by side
+            const featureImportanceSection = document.createElement('div');
+            featureImportanceSection.classList.add('feature-importance');
+            featureImportanceSection.innerHTML = '<h2>Feature Importance</h2>';
+
+            // Check if there are feature importance data
+            if (data.feature_importance_data.length === 0) {
+                featureImportanceSection.innerHTML += '<p class="no-description">No feature importance data available.</p>';
+            } else {
+                data.feature_importance_data.forEach(({ image_url, text }) => {
+                    const container = document.createElement('div');
+                    container.classList.add('feature-importance-container');
+
+                    // Log the feature importance data to debug
+                    console.log(`Feature Importance Data: ${text}`);
+
+                    container.innerHTML = `
+                        <img src="${image_url}" class="feature-importance-image" alt="Feature Importance Image">
+                        <div class="feature-importance-text">
+                            <h5>Importance Mapping</h5>
+                            <table class="importance-table">
+                                <thead>
+                                    <tr>
+                                        <th>Feature Index</th>
+                                        <th>Feature Name</th>
+                                        <th>Importance Value</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    ${text.split(' ').map(item => {
+                        const parts = item.split('->');
+                        return parts.length === 2 ? `
+                                            <tr>
+                                                <td>${parts[0].trim()}</td>
+                                                <td>${parts[1].split(':')[0].trim()}</td>
+                                                <td>${parts[1].split(':')[1]?.trim()}</td>
+                                            </tr>
+                                        ` : '';
+                    }).join('')}
+                                </tbody>
+                            </table>
+                        </div>
+                    `;
+                    featureImportanceSection.appendChild(container);
+                });
+            }
+
+            imagesSection.appendChild(featureImportanceSection);
+        }
+
+        // Load images on page load
+        window.onload = loadImages;
+    </script>
+</body>
+
+</html>

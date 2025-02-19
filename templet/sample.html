@@ -1,0 +1,104 @@
+<div class="container mt-5">
+    <form id="predict-form">
+        <div class="mb-3">
+            <label for="customer_id" class="form-label">Customer ID</label>
+            <input type="number" class="form-control" id="customer_id" name="customer_id" placeholder="Enter Customer ID">
+        </div>
+        <div class="mb-3">
+            <label for="age" class="form-label">Age</label>
+            <input type="number" class="form-control" id="age" name="age" placeholder="Enter customer age">
+        </div>
+        <div class="mb-3">
+            <label for="location" class="form-label">Location</label>
+            <select class="form-select" id="location" name="location">
+                <option value="">Select location</option>
+                <option value="Maine">Maine</option>
+                <option value="California">California</option>
+                <!-- Add other locations -->
+            </select>
+        </div>
+        <div class="mb-3">
+            <label for="subscription_type" class="form-label">Subscription Type</label>
+            <select class="form-select" id="subscription_type" name="subscription_type">
+                <option value="">Select subscription type</option>
+                <option value="basic">Basic</option>
+                <option value="premium">Premium</option>
+                <!-- Add other options -->
+            </select>
+        </div>
+        <div class="mb-3">
+            <label for="payment_plan" class="form-label">Payment Plan</label>
+            <select class="form-select" id="payment_plan" name="payment_plan">
+                <option value="">Select payment plan</option>
+                <option value="monthly">Monthly</option>
+                <option value="annual">Annual</option>
+            </select>
+        </div>
+        <div class="mb-3">
+            <label for="num_subscription_pauses" class="form-label">Number of Subscription Pauses</label>
+            <input type="number" class="form-control" id="num_subscription_pauses" name="num_subscription_pauses" 
+                   placeholder="Enter pauses count" min="0" max="2" step="1" required>
+        </div>
+        <div class="mb-3">
+            <label for="payment_method" class="form-label">Payment Method</label>
+            <select class="form-select" id="payment_method" name="payment_method">
+                <option value="">Select payment method</option>
+                <option value="credit">Credit Card</option>
+                <option value="debit">Debit Card</option>
+            </select>
+        </div>
+        <div class="mb-3">
+            <label for="customer_service_inquiries" class="form-label">Customer Service Inquiries</label>
+            <select class="form-select" id="customer_service_inquiries" name="customer_service_inquiries" required>
+                <option value="">Select inquiry level</option>
+                <option value="none">None</option>
+                <option value="few">Few</option>
+            </select>
+        </div>
+        <div class="mb-3">
+            <label for="signup_date" class="form-label">Signup Date</label>
+            <input type="date" class="form-control" id="signup_date" name="signup_date">
+        </div>
+        <div class="mb-3">
+            <label for="weekly_hours" class="form-label">Weekly Hours</label>
+            <input type="number" class="form-control" id="weekly_hours" name="weekly_hours" placeholder="Enter weekly usage hours">
+        </div>
+        <div class="mb-3">
+            <label for="average_session_length" class="form-label">Average Session Length (minutes)</label>
+            <input type="number" class="form-control" id="average_session_length" name="average_session_length" placeholder="Enter average session length">
+        </div>
+        <div class="mb-3">
+            <label for="song_skip_rate" class="form-label">Song Skip Rate</label>
+            <input type="number" class="form-control" id="song_skip_rate" name="song_skip_rate" placeholder="Enter song skip rate" min="0" max="1" step="0.01" required>
+        </div>
+        <div class="mb-3">
+            <label for="weekly_songs_played" class="form-label">Weekly Songs Played</label>
+            <input type="number" class="form-control" id="weekly_songs_played" name="weekly_songs_played" placeholder="Enter number of songs played weekly">
+        </div>
+        <div class="mb-3">
+            <label for="weekly_unique_songs" class="form-label">Weekly Unique Songs Played</label>
+            <input type="number" class="form-control" id="weekly_unique_songs" name="weekly_unique_songs" placeholder="Enter number of unique songs played">
+        </div>
+        <div class="mb-3">
+            <label for="num_favorite_artists" class="form-label">Number of Favorite Artists</label>
+            <input type="number" class="form-control" id="num_favorite_artists" name="num_favorite_artists" placeholder="Enter favorite artists count">
+        </div>
+        <div class="mb-3">
+            <label for="num_platform_friends" class="form-label">Number of Platform Friends</label>
+            <input type="number" class="form-control" id="num_platform_friends" name="num_platform_friends" placeholder="Enter platform friends count">
+        </div>
+        <div class="mb-3">
+            <label for="num_playlists_created" class="form-label">Number of Playlists Created</label>
+            <input type="number" class="form-control" id="num_playlists_created" name="num_playlists_created" placeholder="Enter playlists count">
+        </div>
+        <div class="mb-3">
+            <label for="num_shared_playlists" class="form-label">Number of Shared Playlists</label>
+            <input type="number" class="form-control" id="num_shared_playlists" name="num_shared_playlists" placeholder="Enter shared playlists count">
+        </div>
+        <div class="mb-3">
+            <label for="notifications_clicked" class="form-label">Notifications Clicked</label>
+            <input type="number" class="form-control" id="notifications_clicked" name="notifications_clicked" placeholder="Enter number of notifications clicked">
+        </div>
+        <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
+</div>
