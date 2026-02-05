@@ -46,8 +46,7 @@ Extracting the most relevant attributes to enhance predictive performance.
 Evaluating different machine learning models:  
 - **Logistic Regression**  
 - **Decision Trees**  
-- **Random Forest** (Best performing model)  
-- **XGBoost**  
+- **XGBoost**  ( Best Performing Model )
 
 ### 📊 Model Evaluation  
 - Performance metrics: **Accuracy, Precision, Recall, F1-score, AUC-ROC**  
